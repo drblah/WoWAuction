@@ -93,83 +93,26 @@ namespace WowAuction
 
         static void Main(string[] args)
         {
-            /*
-            RealmAuction AuctionData = new RealmAuction();
-
-            AuctionData = LoadAuctions("input.txt");
-
-            SqlConnection myConnection = new SqlConnection("user id=username;" +
-                                       "password=password;server=WANDERER\\SQLEXPRESS;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=auctions; " +
-                                       "connection timeout=5");
-
-            try
-            {
-                myConnection.Open();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            for (int updates = 0; updates < 10; updates++)
-            {
-                NewHordeAuctions(AuctionData, myConnection, updates, 10);
-            }
-            */
-
-            /*
-            AuctionDownloader test = new AuctionDownloader();
-
-            AuctionDlInfo myInfo = new AuctionDlInfo();
-
-            myInfo = JsonConvert.DeserializeObject<AuctionDlInfo>(test.AuctionUrl("eu.battle.net", "argent-dawn"));
-
-            test.AuctionDataDump(myInfo.files[0].url);
-            */
-            long timestamp = 1337;  //myInfo.files[0].lastModified;
-
-            RealmAuction AuctionData = new RealmAuction();
-
-            AuctionData = LoadAuctions("auctions.json");
-
-            SqlConnection myConnection = new SqlConnection("user id=username;" +
-                                       "password=password;server=WANDERER\\SQLEXPRESS;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=auctions; " +
-                                       "connection timeout=5");
-
-            try
-            {
-                myConnection.Open();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-
-            UpdateAllHordeAuctions(AuctionData, myConnection, timestamp);
-
-            /*
-            for (int item = 0; item < AuctionData.horde.auctions.Count; item++)
-            {
-                NewHordeAuctions(AuctionData, myConnection, item, timestamp);
-
-                if (item % 10 == 0)
-                {
-                    Console.WriteLine(item + " added.");
-                }
-            }
-            */
-            Console.WriteLine(timestamp);
-            Console.WriteLine("Done!");
             
+            AuctionDownloader theDownloader = new AuctionDownloader();
 
-            Console.ReadLine();
+            string url = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
 
-            myConnection.Close();
+            Console.WriteLine(url);
+
+            theDownloader.AuctionDataDump(url);
+
+            Console.WriteLine("Data downloaded.");
+
+            RealmAuction auctionData = theDownloader.ParseAuctions();
+
+            Console.WriteLine(auctionData.alliance.auctions.Count.ToString() + " Alliance auctions loaded");
+            Console.WriteLine(auctionData.horde.auctions.Count.ToString() + " Horde auctions loaded");
+            Console.WriteLine(auctionData.neutral.auctions.Count.ToString() + " Neutral auctions loaded");
+
+            Console.ReadKey();
+
+
         }
     }
 }
