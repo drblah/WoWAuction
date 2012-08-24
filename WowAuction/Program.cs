@@ -95,7 +95,15 @@ namespace WowAuction
         {
             
             AuctionDownloader theDownloader = new AuctionDownloader();
+            SQLManager SQL = new SQLManager();
 
+            SQL.connection = SQL.DBConnection("TITAN\\SQLEXPRESS", "Auctions");
+
+            SQL.connection.Open();
+
+            SQL.checkTables();
+
+            /*
             string url = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
 
             Console.WriteLine(url);
@@ -109,6 +117,9 @@ namespace WowAuction
             Console.WriteLine(auctionData.alliance.auctions.Count.ToString() + " Alliance auctions loaded");
             Console.WriteLine(auctionData.horde.auctions.Count.ToString() + " Horde auctions loaded");
             Console.WriteLine(auctionData.neutral.auctions.Count.ToString() + " Neutral auctions loaded");
+            */
+
+
 
             Console.ReadKey();
 
