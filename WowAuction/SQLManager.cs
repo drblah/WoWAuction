@@ -40,7 +40,7 @@ namespace WowAuction
                 Console.WriteLine("Alliance table is missing. Attempting to create it");
                 reader.Close();
 
-                command = new SqlCommand("CREATE TABLE [dbo].[Alliance]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [bigint] NULL, CONSTRAINT [PK_Alliance] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
+                command = new SqlCommand("CREATE TABLE [dbo].[Alliance]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [Text] NULL,[timestamp] [bigint] NULL , CONSTRAINT [PK_Alliance] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
 
                 try
                 {
@@ -71,7 +71,7 @@ namespace WowAuction
                 Console.WriteLine("Horde table is missing. Attempting to create it");
                 reader.Close();
 
-                command = new SqlCommand("CREATE TABLE [dbo].[Horde]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [bigint] NULL, CONSTRAINT [PK_Horde] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
+                command = new SqlCommand("CREATE TABLE [dbo].[Horde]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [Text] NULL,[timestamp] [bigint] NULL , CONSTRAINT [PK_Horde] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
 
                 try
                 {
@@ -103,7 +103,7 @@ namespace WowAuction
                 Console.WriteLine("Neutral table is missing. Attempting to create it");
                 reader.Close();
 
-                command = new SqlCommand("CREATE TABLE [dbo].[Neutral]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [bigint] NULL, CONSTRAINT [PK_Neutral] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
+                command = new SqlCommand("CREATE TABLE [dbo].[Neutral]([auc] [bigint] NOT NULL,[item] [int] NULL,[owner] [text] NULL,[bid] [bigint] NULL,[buyout] [bigint] NULL,[quantity] [int] NULL,[timeleft] [Text] NULL,[timestamp] [bigint] NULL , CONSTRAINT [PK_Neutral] PRIMARY KEY CLUSTERED ([auc] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]", connection);
 
                 try
                 {
@@ -123,6 +123,42 @@ namespace WowAuction
              
         }
 
+
+        public Auction findAuctionByID(long id, string faciton)
+        {
+            SqlCommand command = new SqlCommand("SELECT * FROM " + faciton + " WHERE auc = " + id, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            Auction foundAuction = new Auction();
+
+            while (reader.Read())
+            {
+                if (reader.FieldCount == 7)
+                {
+                    
+
+                    foundAuction.auc = (long)reader["auc"];
+                    foundAuction.item = (int)reader["item"];
+                    foundAuction.owner = (string)reader["owner"];
+                    foundAuction.bid = (long)reader["bid"];
+                    foundAuction.buyout = (long)reader["buyout"];
+                    foundAuction.quantity = (int)reader["quantity"];
+                    foundAuction.timeLeft = reader["timeleft"].ToString();
+                    
+
+                    for (int data = 0; data < 7; data++)
+                    {
+                        Console.Write(reader[data] + " ");
+                    }
+                }
+            }
+
+            reader.Close();
+
+            return foundAuction;
+
+        }
 
     }
 }

@@ -22,6 +22,12 @@ namespace WowAuction
             return tmpRoot;
         }
 
+        static DateTime UnixToDate(long time)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return origin.AddSeconds(time/1000);
+        }
+
         static void NewHordeAuctions(RealmAuction tmpRoot, SqlConnection currentConnection, int entryNumber, long timeStamp)
         {
             
@@ -95,6 +101,8 @@ namespace WowAuction
         {
             
             AuctionDownloader theDownloader = new AuctionDownloader();
+            
+            
             SQLManager SQL = new SQLManager();
 
             SQL.connection = SQL.DBConnection("TITAN\\SQLEXPRESS", "Auctions");
@@ -103,11 +111,20 @@ namespace WowAuction
 
             SQL.checkTables();
 
+            Auction anAuction = SQL.findAuctionByID(1337, "Alliance");
+            
+
             /*
-            string url = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
+            AuctionDlInfo theinfo = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
+
+            string url = theinfo.files[0].url;
+
+            long timestamp = theinfo.files[0].lastModified;
 
             Console.WriteLine(url);
-
+            Console.WriteLine(timestamp);
+            Console.WriteLine(UnixToDate(timestamp));
+            
             theDownloader.AuctionDataDump(url);
 
             Console.WriteLine("Data downloaded.");
@@ -123,6 +140,7 @@ namespace WowAuction
 
             Console.ReadKey();
 
+            SQL.connection.Close();
 
         }
     }

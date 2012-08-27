@@ -10,13 +10,18 @@ namespace WowAuction
 {
     class AuctionDownloader
     {
+
+        //Create the client used to download data.
         WebClient client = new WebClient();
 
-        public string RealmStatus(string host)
+
+        //Downloads the realm list of a specifyed region. Ie. eu.battle.net or us.battle.net.
+        //The list is JSON and is returned as a string.
+        public string RealmStatus(string region)
         {
             try
             {
-                string reply = client.DownloadString("http://" + host + "/api/wow/realm/status");
+                string reply = client.DownloadString("http://" + region + "/api/wow/realm/status");
 
                 return reply;
             }
@@ -28,7 +33,12 @@ namespace WowAuction
             
         }
 
-        public string AuctionUrl(string host, string realm)
+        /*Requests the url for the newest auction data for a specific realm.
+         *Blizzard's API will return the result as JSON. It contains a url or the auction data and a time stamp for when the data was updated.
+         *
+         * 
+        */
+        public AuctionDlInfo AuctionUrl(string host, string realm)
         {
             try
             {
@@ -36,7 +46,7 @@ namespace WowAuction
 
                 AuctionDlInfo dlinfo = JsonConvert.DeserializeObject<AuctionDlInfo>(reply);
 
-                return dlinfo.files[0].url;
+                return dlinfo;
             }
             catch (Exception e)
             {
