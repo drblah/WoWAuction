@@ -11,6 +11,8 @@ namespace WowAuction
 {
     class Program
     {
+
+
         static RealmAuction LoadAuctions(string file)
         {
             string input = File.ReadAllText(file);
@@ -99,7 +101,33 @@ namespace WowAuction
 
         static void Main(string[] args)
         {
-            
+            menu programMenu = new menu();
+
+            programMenu.MainMenu();
+
+            bool isNum = false;
+
+            while (true)
+            {
+
+                while (!isNum)
+                {
+                    string consoleInput = Console.ReadLine();
+
+                    isNum = int.TryParse(consoleInput, out programMenu.menuChoice);
+
+                    if (!isNum)
+                    {
+                        Console.WriteLine("Please choose an activity by writing a number from the list.");
+                    }
+                }
+
+                programMenu.subMenu();
+
+            }
+
+
+            /*
             AuctionDownloader theDownloader = new AuctionDownloader();
             
             
@@ -114,7 +142,7 @@ namespace WowAuction
             Auction anAuction = SQL.findAuctionByID(1337, "Alliance");
             
 
-            /*
+            
             AuctionDlInfo theinfo = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
 
             string url = theinfo.files[0].url;
@@ -134,13 +162,14 @@ namespace WowAuction
             Console.WriteLine(auctionData.alliance.auctions.Count.ToString() + " Alliance auctions loaded");
             Console.WriteLine(auctionData.horde.auctions.Count.ToString() + " Horde auctions loaded");
             Console.WriteLine(auctionData.neutral.auctions.Count.ToString() + " Neutral auctions loaded");
-            */
+            
 
 
 
-            Console.ReadKey();
+            
 
             SQL.connection.Close();
+            */
 
         }
     }

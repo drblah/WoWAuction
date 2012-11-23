@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AuctionDownloader.cs" />
     <Compile Include="AuctionFileObject.cs" />
+    <Compile Include="menu.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
