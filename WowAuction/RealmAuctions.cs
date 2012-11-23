@@ -66,4 +66,5 @@ namespace WowAuction
         public Horde horde { get; set; }
         public Neutral neutral { get; set; }
     }
+
 }

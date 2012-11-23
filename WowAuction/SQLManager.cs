@@ -123,6 +123,75 @@ namespace WowAuction
              
         }
 
+        public void UpdateAuctions(RealmAuction auctions, long currentTimestamp)
+        {
+            for (int counter = 0; counter < auctions.alliance.auctions.Count(); counter++)
+            {
+                SqlCommand command = new SqlCommand("SELECT auc FROM Alliance WHERE auc = " + auctions.alliance.auctions[counter].auc.ToString(), connection);
+                
+                Auction currentAuction = auctions.alliance.auctions[counter];
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    Console.WriteLine("\nNo auction found");
+
+                    SqlCommand createAuction = new SqlCommand("INSERT INTO [dbo].[Alliance]" +
+                                                                "([auc]" +
+                                                                ",[item]" +
+                                                                ",[owner]" +
+                                                                ",[bid]" +
+                                                                ",[buyout]" +
+                                                                ",[quantity]" +
+                                                                ",[timeleft]" +
+                                                                ",[timestamp])" +
+                                                                "VALUES" +
+                                                                    "(" +
+                                                                    currentAuction.auc.ToString() +
+                                                                    "," +
+                                                                    currentAuction.item.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.owner +
+                                                                    "'," +
+                                                                    currentAuction.bid.ToString() +
+                                                                    "," +
+                                                                    currentAuction.buyout.ToString() +
+                                                                    "," +
+                                                                    currentAuction.quantity.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.timeLeft +
+                                                                    "'," +
+                                                                    currentTimestamp.ToString() + ")", connection);
+
+                    createAuction.ExecuteNonQuery();
+
+                    
+                }
+                else
+                {
+                    reader.Close();
+                    Console.WriteLine("\nAuction found");
+
+                    SqlCommand updateAuction = new SqlCommand("UPDATE [dbo].[Alliance]" +
+                                                               "SET [auc] = " + currentAuction.auc.ToString() +
+                                                                  " ,[item] = " + currentAuction.item.ToString() +
+                                                                  " ,[owner] = '" + currentAuction.owner +
+                                                                  "' ,[bid] = " + currentAuction.bid.ToString() +
+                                                                  " ,[buyout] = " + currentAuction.buyout.ToString() +
+                                                                  " ,[quantity] = " + currentAuction.quantity.ToString() +
+                                                                  " ,[timeleft] = '" + currentAuction.timeLeft +
+                                                                  "' ,[timestamp] = " + currentTimestamp.ToString() +
+                                                             "WHERE auc = " + currentAuction.auc.ToString(), connection);
+
+                    updateAuction.ExecuteNonQuery();
+                }
+
+                
+            }
+        }
+
 
         public Auction findAuctionByID(long id, string faciton)
         {

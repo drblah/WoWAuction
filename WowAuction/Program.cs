@@ -103,12 +103,13 @@ namespace WowAuction
         {
             menu programMenu = new menu();
 
-            programMenu.MainMenu();
+
 
             bool isNum = false;
 
             while (true)
             {
+                programMenu.MainMenu();
 
                 while (!isNum)
                 {
@@ -124,52 +125,8 @@ namespace WowAuction
 
                 programMenu.subMenu();
 
+                isNum = false;
             }
-
-
-            /*
-            AuctionDownloader theDownloader = new AuctionDownloader();
-            
-            
-            SQLManager SQL = new SQLManager();
-
-            SQL.connection = SQL.DBConnection("TITAN\\SQLEXPRESS", "Auctions");
-
-            SQL.connection.Open();
-
-            SQL.checkTables();
-
-            Auction anAuction = SQL.findAuctionByID(1337, "Alliance");
-            
-
-            
-            AuctionDlInfo theinfo = theDownloader.AuctionUrl("eu.battle.net", "argent-dawn");
-
-            string url = theinfo.files[0].url;
-
-            long timestamp = theinfo.files[0].lastModified;
-
-            Console.WriteLine(url);
-            Console.WriteLine(timestamp);
-            Console.WriteLine(UnixToDate(timestamp));
-            
-            theDownloader.AuctionDataDump(url);
-
-            Console.WriteLine("Data downloaded.");
-
-            RealmAuction auctionData = theDownloader.ParseAuctions();
-
-            Console.WriteLine(auctionData.alliance.auctions.Count.ToString() + " Alliance auctions loaded");
-            Console.WriteLine(auctionData.horde.auctions.Count.ToString() + " Horde auctions loaded");
-            Console.WriteLine(auctionData.neutral.auctions.Count.ToString() + " Neutral auctions loaded");
-            
-
-
-
-            
-
-            SQL.connection.Close();
-            */
 
         }
     }
