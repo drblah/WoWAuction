@@ -125,6 +125,7 @@ namespace WowAuction
 
         public void UpdateAuctions(RealmAuction auctions, long currentTimestamp)
         {
+            Console.WriteLine("\nUpdating auction database...");
             for (int counter = 0; counter < auctions.alliance.auctions.Count(); counter++)
             {
                 SqlCommand command = new SqlCommand("SELECT auc FROM Alliance WHERE auc = " + auctions.alliance.auctions[counter].auc.ToString(), connection);
@@ -136,7 +137,7 @@ namespace WowAuction
                 if (!reader.HasRows)
                 {
                     reader.Close();
-                    Console.WriteLine("\nNo auction found");
+                    //Console.WriteLine("\nNo auction found");
 
                     SqlCommand createAuction = new SqlCommand("INSERT INTO [dbo].[Alliance]" +
                                                                 "([auc]" +
@@ -172,7 +173,7 @@ namespace WowAuction
                 else
                 {
                     reader.Close();
-                    Console.WriteLine("\nAuction found");
+                    //Console.WriteLine("\nAuction found");
 
                     SqlCommand updateAuction = new SqlCommand("UPDATE [dbo].[Alliance]" +
                                                                "SET [auc] = " + currentAuction.auc.ToString() +
@@ -190,8 +191,165 @@ namespace WowAuction
 
                 
             }
+
+            for (int counter = 0; counter < auctions.horde.auctions.Count(); counter++)
+            {
+                SqlCommand command = new SqlCommand("SELECT auc FROM Horde WHERE auc = " + auctions.horde.auctions[counter].auc.ToString(), connection);
+
+                Auction currentAuction = auctions.horde.auctions[counter];
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    //Console.WriteLine("\nNo auction found");
+
+                    SqlCommand createAuction = new SqlCommand("INSERT INTO [dbo].[Horde]" +
+                                                                "([auc]" +
+                                                                ",[item]" +
+                                                                ",[owner]" +
+                                                                ",[bid]" +
+                                                                ",[buyout]" +
+                                                                ",[quantity]" +
+                                                                ",[timeleft]" +
+                                                                ",[timestamp])" +
+                                                                "VALUES" +
+                                                                    "(" +
+                                                                    currentAuction.auc.ToString() +
+                                                                    "," +
+                                                                    currentAuction.item.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.owner +
+                                                                    "'," +
+                                                                    currentAuction.bid.ToString() +
+                                                                    "," +
+                                                                    currentAuction.buyout.ToString() +
+                                                                    "," +
+                                                                    currentAuction.quantity.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.timeLeft +
+                                                                    "'," +
+                                                                    currentTimestamp.ToString() + ")", connection);
+
+                    createAuction.ExecuteNonQuery();
+
+
+                }
+                else
+                {
+                    reader.Close();
+                    //Console.WriteLine("\nAuction found");
+
+                    SqlCommand updateAuction = new SqlCommand("UPDATE [dbo].[Horde]" +
+                                                               "SET [auc] = " + currentAuction.auc.ToString() +
+                                                                  " ,[item] = " + currentAuction.item.ToString() +
+                                                                  " ,[owner] = '" + currentAuction.owner +
+                                                                  "' ,[bid] = " + currentAuction.bid.ToString() +
+                                                                  " ,[buyout] = " + currentAuction.buyout.ToString() +
+                                                                  " ,[quantity] = " + currentAuction.quantity.ToString() +
+                                                                  " ,[timeleft] = '" + currentAuction.timeLeft +
+                                                                  "' ,[timestamp] = " + currentTimestamp.ToString() +
+                                                             "WHERE auc = " + currentAuction.auc.ToString(), connection);
+
+                    updateAuction.ExecuteNonQuery();
+                }
+
+
+            }
+
+            for (int counter = 0; counter < auctions.neutral.auctions.Count(); counter++)
+            {
+                SqlCommand command = new SqlCommand("SELECT auc FROM Neutral WHERE auc = " + auctions.neutral.auctions[counter].auc.ToString(), connection);
+
+                Auction currentAuction = auctions.neutral.auctions[counter];
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    //Console.WriteLine("\nNo auction found");
+
+                    SqlCommand createAuction = new SqlCommand("INSERT INTO [dbo].[Neutral]" +
+                                                                "([auc]" +
+                                                                ",[item]" +
+                                                                ",[owner]" +
+                                                                ",[bid]" +
+                                                                ",[buyout]" +
+                                                                ",[quantity]" +
+                                                                ",[timeleft]" +
+                                                                ",[timestamp])" +
+                                                                "VALUES" +
+                                                                    "(" +
+                                                                    currentAuction.auc.ToString() +
+                                                                    "," +
+                                                                    currentAuction.item.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.owner +
+                                                                    "'," +
+                                                                    currentAuction.bid.ToString() +
+                                                                    "," +
+                                                                    currentAuction.buyout.ToString() +
+                                                                    "," +
+                                                                    currentAuction.quantity.ToString() +
+                                                                    ",'" +
+                                                                    currentAuction.timeLeft +
+                                                                    "'," +
+                                                                    currentTimestamp.ToString() + ")", connection);
+
+                    createAuction.ExecuteNonQuery();
+
+
+                }
+                else
+                {
+                    reader.Close();
+                    //Console.WriteLine("\nAuction found");
+
+                    SqlCommand updateAuction = new SqlCommand("UPDATE [dbo].[Neutral]" +
+                                                               "SET [auc] = " + currentAuction.auc.ToString() +
+                                                                  " ,[item] = " + currentAuction.item.ToString() +
+                                                                  " ,[owner] = '" + currentAuction.owner +
+                                                                  "' ,[bid] = " + currentAuction.bid.ToString() +
+                                                                  " ,[buyout] = " + currentAuction.buyout.ToString() +
+                                                                  " ,[quantity] = " + currentAuction.quantity.ToString() +
+                                                                  " ,[timeleft] = '" + currentAuction.timeLeft +
+                                                                  "' ,[timestamp] = " + currentTimestamp.ToString() +
+                                                             "WHERE auc = " + currentAuction.auc.ToString(), connection);
+
+                    updateAuction.ExecuteNonQuery();
+                }
+
+
+            }
+
+            Console.WriteLine("Database has been updated.");
+
+
         }
 
+        public void DeleteExpired(long currentTimestamp)
+        {
+            Console.WriteLine("\nDeleting expired auctions");
+            SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Alliance] WHERE [timestamp] != " + currentTimestamp.ToString(), connection);
+
+            int deletedAuctions = command.ExecuteNonQuery();
+            Console.WriteLine("\n" + deletedAuctions.ToString() + " old Alliance auctions was removed");
+
+            command.CommandText = "DELETE FROM [dbo].[Horde] WHERE [timestamp] != " + currentTimestamp.ToString();
+
+            deletedAuctions = command.ExecuteNonQuery();
+            Console.WriteLine("\n" + deletedAuctions.ToString() + " old Horde auctions was removed");
+
+            command.CommandText = "DELETE FROM [dbo].[Neutral] WHERE [timestamp] != " + currentTimestamp.ToString();
+
+            deletedAuctions = command.ExecuteNonQuery();
+            Console.WriteLine("\n" + deletedAuctions.ToString() + " old Neutral auctions was removed");
+
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
 
         public Auction findAuctionByID(long id, string faciton)
         {

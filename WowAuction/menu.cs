@@ -21,6 +21,7 @@ namespace WowAuction
             Console.WriteLine("Welcome to WowAuction!");
             Console.WriteLine("\n1. Download new Auction data");
             Console.WriteLine("\n2. Load Auctions");
+            Console.WriteLine("\n3. Delete old auctions");
 
             Console.WriteLine("\n0. Exit application");
             Console.WriteLine("\nPlease choose an activity:");
@@ -103,10 +104,13 @@ namespace WowAuction
                         Console.ReadLine();
                     }
 
+                    database.DeleteExpired(globalTimestamp);
+
                     database.connection.Close();
 
                     break;
-
+                case 3:
+                    break;
                 default:
                     Console.WriteLine("Please choose an activity by writing a number from the list.");
                     break;

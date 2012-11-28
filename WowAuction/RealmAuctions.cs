@@ -27,36 +27,18 @@ namespace WowAuction
         public List<Auction> auctions { get; set; }
     }
 
-    public class Auction2
-    {
-        public long auc { get; set; }
-        public int item { get; set; }
-        public string owner { get; set; }
-        public long bid { get; set; }
-        public long buyout { get; set; }
-        public int quantity { get; set; }
-        public string timeLeft { get; set; }
-    }
+
 
     public class Horde
     {
-        public List<Auction2> auctions { get; set; }
+        public List<Auction> auctions { get; set; }
     }
 
-    public class Auction3
-    {
-        public long auc { get; set; }
-        public int item { get; set; }
-        public string owner { get; set; }
-        public long bid { get; set; }
-        public long buyout { get; set; }
-        public int quantity { get; set; }
-        public string timeLeft { get; set; }
-    }
+
 
     public class Neutral
     {
-        public List<Auction3> auctions { get; set; }
+        public List<Auction> auctions { get; set; }
     }
 
     public class RealmAuction

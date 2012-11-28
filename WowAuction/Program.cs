@@ -70,7 +70,7 @@ namespace WowAuction
 
         static void UpdateAllHordeAuctions(RealmAuction tmpRealmAuction, SqlConnection currentConnection, long timestamp)
         {
-            foreach (Auction2 auction in tmpRealmAuction.horde.auctions)
+            foreach (Auction auction in tmpRealmAuction.horde.auctions)
             {
 
                 SqlCommand UpdateCommand = new SqlCommand(
